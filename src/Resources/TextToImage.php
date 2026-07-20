@@ -26,7 +26,8 @@ readonly class TextToImage extends TypedConfiguredResource
      *   callback_url?: string,
      *   aspect_ratio?: string,
      *   output_count?: int,
-     *   output_quality?: int,
+     *   output_format?: string,
+     *   output_quality?: string,
      *   output_resolution?: string
      * } $params
      */
@@ -55,7 +56,8 @@ readonly class TextToImage extends TypedConfiguredResource
      *   callback_url?: string,
      *   aspect_ratio?: string,
      *   output_count?: int,
-     *   output_quality?: int,
+     *   output_format?: string,
+     *   output_quality?: string,
      *   output_resolution?: string
      * } $params
      */

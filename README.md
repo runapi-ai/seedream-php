@@ -35,6 +35,14 @@ $edit = $client->editImage->create([
     'source_image_urls' => ['https://cdn.runapi.ai/public/samples/image.jpg'],
 ]);
 
+$lite = $client->textToImage->create([
+    'model' => 'seedream-5-lite-text-to-image',
+    'prompt' => 'A bright editorial photo of a modern bookstore cafe',
+    'aspect_ratio' => '4:3',
+    'output_quality' => 'basic',
+    'output_format' => 'jpeg',
+]);
+
 $result = $client->textToImage->run([
     'model' => 'seedream-v4-text-to-image',
     'prompt' => 'A serene mountain lake at dawn',
@@ -48,6 +56,10 @@ Use `create()` to submit a task and return quickly, `get()` to fetch the latest 
 Returned file URLs are temporary. Download and store generated files in your own durable storage within the retention window.
 
 All SDK exceptions inherit from `RunApi\Core\Errors\RunApiException`, including validation, authentication, rate limit, task failure, and task timeout errors.
+
+## Seedream 5 Pro
+
+Use `seedream-5-pro-text-to-image` for generation and `seedream-5-pro-edit` for image editing. Both accept `output_quality`, optional `output_format`, and optional content safety checking; editing accepts up to 10 source image URLs.
 
 ## Links
 
