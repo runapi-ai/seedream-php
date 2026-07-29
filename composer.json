@@ -33,7 +33,7 @@
   "homepage": "https://runapi.ai/models/seedream",
   "support": {
     "source": "https://github.com/runapi-ai/seedream-php",
-    "docs": "https://runapi.ai/docs#sdk-seedream",
+    "docs": "https://runapi.ai/docs/resources/sdks",
     "issues": "https://github.com/runapi-ai/seedream-php/issues"
   },
   "keywords": [

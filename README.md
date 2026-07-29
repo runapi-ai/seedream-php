@@ -64,8 +64,8 @@ Use `seedream-5-pro-text-to-image` for generation and `seedream-5-pro-edit` for 
 ## Links
 
 - Model page: https://runapi.ai/models/seedream
-- SDK docs: https://runapi.ai/docs#sdk-seedream
-- Product docs: https://runapi.ai/docs#seedream
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/seedream/text-to-image
 - Pricing and rate limits: https://runapi.ai/models/seedream/4.5-text-to-image
 - Full catalog: https://runapi.ai/models
 - GitHub repository: https://github.com/runapi-ai/seedream-php
