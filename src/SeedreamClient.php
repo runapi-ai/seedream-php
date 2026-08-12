@@ -6,6 +6,7 @@ namespace RunApi\Seedream;
 
 use RunApi\Core\BaseClient;
 use RunApi\Core\ClientOptions;
+use RunApi\Seedream\Resources\DecomposeLayers;
 use RunApi\Seedream\Resources\EditImage;
 use RunApi\Seedream\Resources\TextToImage;
 
@@ -24,6 +25,10 @@ final class SeedreamClient extends BaseClient
      * Provides image editing operations using source images.
      */
     public readonly EditImage $editImage;
+    /**
+     * Provides layer decomposition operations.
+     */
+    public readonly DecomposeLayers $decomposeLayers;
 
     /**
      * Create a Seedream client with optional API key, base URL, and transport overrides.
@@ -33,5 +38,6 @@ final class SeedreamClient extends BaseClient
         parent::__construct($options);
         $this->textToImage = TextToImage::fromHttp($this->http);
         $this->editImage = EditImage::fromHttp($this->http);
+        $this->decomposeLayers = DecomposeLayers::fromHttp($this->http);
     }
 }

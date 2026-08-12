@@ -15,6 +15,9 @@ final class Types
     /** @var list<string> */
     public const EDIT_IMAGE_MODELS = ['seedream-4.5-edit', 'seedream-5-lite-edit', 'seedream-5-pro-edit', 'seedream-v4-edit'];
 
+    /** @var list<string> */
+    public const DECOMPOSE_LAYERS_MODELS = ['seedream-5-pro-layer-decomposition'];
+
     private function __construct()
     {
     }

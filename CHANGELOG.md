@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.1.2](https://github.com/runapi-ai/seedream-php/releases/tag/v0.1.2) - 2026-08-12
+
+### Added
+- Add typed create, query, and polling support for Seedream layer decomposition tasks.
+
+
 ## [v0.1.1](https://github.com/runapi-ai/seedream-php/releases/tag/v0.1.1) - 2026-07-20
 
 ### Added

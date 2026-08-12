@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use RunApi\Core\ClientOptions;
 use RunApi\Core\Tests\Fixtures\QueueHttpClient;
 use RunApi\Seedream\Models\CompletedImageTaskResponse;
+use RunApi\Seedream\Resources\DecomposeLayers;
 use RunApi\Seedream\Resources\EditImage;
 use RunApi\Seedream\Resources\TextToImage;
 use RunApi\Seedream\SeedreamClient;
@@ -21,6 +22,25 @@ final class SeedreamClientTest extends TestCase
 
         self::assertInstanceOf(TextToImage::class, $client->textToImage);
         self::assertInstanceOf(EditImage::class, $client->editImage);
+        self::assertInstanceOf(DecomposeLayers::class, $client->decomposeLayers);
+    }
+
+    public function testDecomposeLayersReturnsBaseImageAndLayers(): void
+    {
+        $transport = new QueueHttpClient([
+            new Response(200, [], '{"id":"task_layers"}'),
+            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png"}]}'),
+        ]);
+        $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
+
+        $result = $client->decomposeLayers->run([
+            'model' => 'seedream-5-pro-layer-decomposition',
+            'image_url' => 'https://cdn.runapi.ai/public/samples/image.jpg',
+        ]);
+
+        self::assertSame('https://file.runapi.ai/base.jpeg', $result->baseImage?->url);
+        self::assertSame('https://file.runapi.ai/layer.png', $result->layers[0]->url);
+        self::assertSame('/api/v1/seedream/decompose_layers', $transport->requests[0]->getUri()->getPath());
     }
 
     public function testTextToImageRunReturnsImages(): void
