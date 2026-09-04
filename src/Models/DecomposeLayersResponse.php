@@ -10,7 +10,7 @@ use RunApi\Core\Support\Payload;
 /** Async layer decomposition task response. */
 readonly class DecomposeLayersResponse extends TaskResponse
 {
-    /** @param list<Image> $layers @param array<string, mixed> $raw */
+    /** @param list<Layer> $layers @param array<string, mixed> $raw */
     public function __construct(?string $id, string $status, ?string $error = null, public ?Image $baseImage = null, public array $layers = [], array $raw = [])
     {
         parent::__construct(id: $id, status: $status, error: $error, raw: $raw);
@@ -33,10 +33,10 @@ readonly class DecomposeLayersResponse extends TaskResponse
     /**
      * @param array<string, mixed> $raw
      *
-     * @return list<Image>
+     * @return list<Layer>
      */
     protected static function layers(array $raw, bool $required = false): array
     {
-        return Payload::listOf($raw, 'layers', Image::fromArray(...), $required);
+        return Payload::listOf($raw, 'layers', Layer::fromArray(...), $required);
     }
 }

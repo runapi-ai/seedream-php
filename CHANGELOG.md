@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.0](https://github.com/runapi-ai/seedream-php/releases/tag/v0.2.0) - 2026-09-04
+
+### Added
+- Add Layer and BoundingBox types for decompose_layers responses. Layers now include z_index, bounding_box, name, and description when the model returns them.
+
+
 ## [v0.1.2](https://github.com/runapi-ai/seedream-php/releases/tag/v0.1.2) - 2026-08-12
 
 ### Added

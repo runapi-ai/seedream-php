@@ -29,7 +29,7 @@ final class SeedreamClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_layers"}'),
-            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png"}]}'),
+            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png","z_index":1}]}'),
         ]);
         $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
