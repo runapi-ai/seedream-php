@@ -29,14 +29,12 @@ final class SeedreamClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_layers"}'),
-            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png","z_index":1}]}'),
-        ]);
+            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png","z_index":1}],"usage":{"cost":0.05}}')]);
         $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $result = $client->decomposeLayers->run([
             'model' => 'seedream-5-pro-layer-decomposition',
-            'image_url' => 'https://cdn.runapi.ai/public/samples/image.jpg',
-        ]);
+            'image_url' => 'https://cdn.runapi.ai/public/samples/image.jpg']);
 
         self::assertSame('https://file.runapi.ai/base.jpeg', $result->baseImage?->url);
         self::assertSame('https://file.runapi.ai/layer.png', $result->layers[0]->url);
@@ -47,14 +45,12 @@ final class SeedreamClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_1"}'),
-            new Response(200, [], '{"id":"task_1","status":"completed","images":[{"url":"https://file.runapi.ai/image.png"}]}'),
-        ]);
+            new Response(200, [], '{"id":"task_1","status":"completed","images":[{"url":"https://file.runapi.ai/image.png"}],"usage":{"cost":0.05}}')]);
         $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $result = $client->textToImage->run([
             'model' => 'seedream-v4-text-to-image',
-            'prompt' => 'A product render',
-        ]);
+            'prompt' => 'A product render']);
 
         self::assertSame('https://file.runapi.ai/image.png', $result->images[0]->url);
         self::assertInstanceOf(CompletedImageTaskResponse::class, $result);
@@ -65,8 +61,7 @@ final class SeedreamClientTest extends TestCase
     public function testLiteOutputFormatIsForwarded(): void
     {
         $transport = new QueueHttpClient([
-            new Response(200, [], '{"id":"task_lite","status":"processing"}'),
-        ]);
+            new Response(200, [], '{"id":"task_lite","status":"processing"}')]);
         $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $client->editImage->create([
@@ -75,8 +70,7 @@ final class SeedreamClientTest extends TestCase
             'source_image_urls' => ['https://cdn.runapi.ai/public/samples/image.jpg'],
             'aspect_ratio' => '1:1',
             'output_quality' => 'high',
-            'output_format' => 'jpeg',
-        ]);
+            'output_format' => 'jpeg']);
 
         $body = json_decode((string) $transport->requests[0]->getBody(), true, flags: JSON_THROW_ON_ERROR);
         self::assertSame('jpeg', $body['output_format']);
@@ -87,8 +81,7 @@ final class SeedreamClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_pro_text","status":"processing"}'),
-            new Response(200, [], '{"id":"task_pro_edit","status":"processing"}'),
-        ]);
+            new Response(200, [], '{"id":"task_pro_edit","status":"processing"}')]);
         $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $client->textToImage->create([
@@ -96,16 +89,14 @@ final class SeedreamClientTest extends TestCase
             'prompt' => 'A photorealistic rooftop cafe at sunrise',
             'aspect_ratio' => '21:9',
             'output_quality' => 'high',
-            'output_format' => 'jpeg',
-        ]);
+            'output_format' => 'jpeg']);
         $client->editImage->create([
             'model' => 'seedream-5-pro-edit',
             'prompt' => 'Turn the material into transparent glass',
             'source_image_urls' => ['https://cdn.runapi.ai/public/samples/image.jpg'],
             'aspect_ratio' => '3:2',
             'output_quality' => 'basic',
-            'output_format' => 'png',
-        ]);
+            'output_format' => 'png']);
 
         $textBody = json_decode((string) $transport->requests[0]->getBody(), true, flags: JSON_THROW_ON_ERROR);
         $editBody = json_decode((string) $transport->requests[1]->getBody(), true, flags: JSON_THROW_ON_ERROR);

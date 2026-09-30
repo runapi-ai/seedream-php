@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Seedream\Models\CompletedImageTaskResponse;
 use RunApi\Seedream\Models\ImageTaskResponse;
-use RunApi\Seedream\Types;
 
 /**
  * Modifies source images according to a text prompt.
@@ -79,10 +78,8 @@ readonly class EditImage extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/seedream/edit_image',
-            'seedream/edit-image',
             ImageTaskResponse::class,
             CompletedImageTaskResponse::class,
-            Types::EDIT_IMAGE_MODELS,
             'edit-image',
             ImageTaskResponse::class,
             CompletedImageTaskResponse::class,

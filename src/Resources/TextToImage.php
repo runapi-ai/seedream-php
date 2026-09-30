@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Seedream\Models\CompletedImageTaskResponse;
 use RunApi\Seedream\Models\ImageTaskResponse;
-use RunApi\Seedream\Types;
 
 /**
  * Generates images from text prompts across Seedream model versions.
@@ -77,10 +76,8 @@ readonly class TextToImage extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/seedream/text_to_image',
-            'seedream/text-to-image',
             ImageTaskResponse::class,
             CompletedImageTaskResponse::class,
-            Types::TEXT_TO_IMAGE_MODELS,
             'text-to-image',
             ImageTaskResponse::class,
             CompletedImageTaskResponse::class,
