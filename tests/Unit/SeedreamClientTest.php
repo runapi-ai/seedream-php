@@ -29,7 +29,7 @@ final class SeedreamClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_layers"}'),
-            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png","z_index":1}],"usage":{"cost":0.05}}')]);
+            new Response(200, [], '{"id":"task_layers","status":"completed","base_image":{"url":"https://file.runapi.ai/base.jpeg"},"layers":[{"url":"https://file.runapi.ai/layer.png","z_index":1}],"usage":{"cost":0.05,"generated_images":2}}')]);
         $client = new SeedreamClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $result = $client->decomposeLayers->run([
@@ -37,6 +37,7 @@ final class SeedreamClientTest extends TestCase
             'image_url' => 'https://cdn.runapi.ai/public/samples/image.jpg']);
 
         self::assertSame('https://file.runapi.ai/base.jpeg', $result->baseImage?->url);
+        self::assertSame(2, $result->usage?->generatedImages);
         self::assertSame('https://file.runapi.ai/layer.png', $result->layers[0]->url);
         self::assertSame('/api/v1/seedream/decompose_layers', $transport->requests[0]->getUri()->getPath());
     }
@@ -96,12 +97,14 @@ final class SeedreamClientTest extends TestCase
             'source_image_urls' => ['https://cdn.runapi.ai/public/samples/image.jpg'],
             'aspect_ratio' => '3:2',
             'output_quality' => 'basic',
-            'output_format' => 'png']);
+            'output_format' => 'png',
+            'background' => 'transparent']);
 
         $textBody = json_decode((string) $transport->requests[0]->getBody(), true, flags: JSON_THROW_ON_ERROR);
         $editBody = json_decode((string) $transport->requests[1]->getBody(), true, flags: JSON_THROW_ON_ERROR);
         self::assertSame('seedream-5-pro-text-to-image', $textBody['model']);
         self::assertSame('seedream-5-pro-edit', $editBody['model']);
         self::assertSame(['https://cdn.runapi.ai/public/samples/image.jpg'], $editBody['source_image_urls']);
+        self::assertSame('transparent', $editBody['background']);
     }
 }

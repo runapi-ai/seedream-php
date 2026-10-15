@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.4.0](https://github.com/runapi-ai/seedream-php/releases/tag/v0.4.0) - 2026-10-15
+
+### Added
+- Seedream 5 Pro edit accepts an optional background field; transparent keeps the transparent background of exactly one PNG source image and requires output_format png. Other Seedream edit models reject background.
+
+
 ## [v0.3.0](https://github.com/runapi-ai/seedream-php/releases/tag/v0.3.0) - 2026-09-30
 
 ### Changed
